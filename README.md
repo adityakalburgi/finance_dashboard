@@ -1,4 +1,4 @@
-# Finance Insights Hub 🚀
+# Finance dashboard assignment 🚀
 
 A modern, responsive finance dashboard built with React, TypeScript, Tailwind CSS, and shadcn/ui components. Features interactive charts, transaction management with localStorage persistence, role-based access, filtering, and dark mode.
 
