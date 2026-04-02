@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --background: 220 20% 97%;
+    --foreground: 220 25% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 10%;
+
+    --primary: 230 65% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 93%;
+    --secondary-foreground: 220 25% 10%;
+
+    --muted: 220 15% 93%;
+    --muted-foreground: 220 10% 50%;
+
+    --accent: 220 15% 93%;
+    --accent-foreground: 220 25% 10%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 230 65% 52%;
+
+    --radius: 0.75rem;
+
+    /* Finance-specific tokens */
+    --income: 152 60% 42%;
+    --income-foreground: 0 0% 100%;
+    --income-muted: 152 40% 94%;
+
+    --expense: 0 72% 55%;
+    --expense-foreground: 0 0% 100%;
+    --expense-muted: 0 50% 95%;
+
+    --chart-1: 230 65% 52%;
+    --chart-2: 152 60% 42%;
+    --chart-3: 32 95% 55%;
+    --chart-4: 280 55% 55%;
+    --chart-5: 0 72% 55%;
+    --chart-6: 190 70% 45%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 230 65% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 93%;
+    --sidebar-accent-foreground: 220 25% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 230 65% 52%;
+
+    --shadow-sm: 0 1px 2px 0 hsl(220 25% 10% / 0.04);
+    --shadow-md: 0 4px 12px -2px hsl(220 25% 10% / 0.06), 0 2px 4px -2px hsl(220 25% 10% / 0.04);
+    --shadow-lg: 0 12px 32px -4px hsl(220 25% 10% / 0.08), 0 4px 8px -2px hsl(220 25% 10% / 0.04);
+  }
+
+  .dark {
+    --background: 224 30% 8%;
+    --foreground: 210 20% 92%;
+
+    --card: 224 25% 12%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 224 25% 12%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 230 65% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 224 20% 18%;
+    --secondary-foreground: 210 20% 92%;
+
+    --muted: 224 20% 18%;
+    --muted-foreground: 215 15% 55%;
+
+    --accent: 224 20% 18%;
+    --accent-foreground: 210 20% 92%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 224 15% 20%;
+    --input: 224 15% 20%;
+    --ring: 230 65% 60%;
+
+    --income: 152 55% 50%;
+    --income-muted: 152 30% 15%;
+
+    --expense: 0 65% 55%;
+    --expense-muted: 0 30% 15%;
+
+    --chart-1: 230 65% 60%;
+    --chart-2: 152 55% 50%;
+    --chart-3: 32 85% 55%;
+    --chart-4: 280 50% 60%;
+    --chart-5: 0 65% 55%;
+    --chart-6: 190 60% 50%;
+
+    --sidebar-background: 224 25% 10%;
+    --sidebar-foreground: 210 20% 85%;
+    --sidebar-primary: 230 65% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 224 20% 16%;
+    --sidebar-accent-foreground: 210 20% 85%;
+    --sidebar-border: 224 15% 18%;
+    --sidebar-ring: 230 65% 60%;
+
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
+    --shadow-md: 0 4px 12px -2px hsl(0 0% 0% / 0.3);
+    --shadow-lg: 0 12px 32px -4px hsl(0 0% 0% / 0.4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+}
+
+@layer utilities {
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .card-shadow {
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-shadow-lg {
+    box-shadow: var(--shadow-lg);
+  }
+}
