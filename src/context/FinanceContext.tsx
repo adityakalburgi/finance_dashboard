@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useMemo, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+} from "react";
 import { Transaction, Role, Filters, Category } from "@/data/types";
 import { mockTransactions } from "@/data/mockData";
 
@@ -21,7 +28,32 @@ interface FinanceContextType {
 const FinanceContext = createContext<FinanceContextType | null>(null);
 
 export function FinanceProvider({ children }: { children: React.ReactNode }) {
-  const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
+  const STORAGE_KEY = "financeTransactions";
+
+  const [transactions, setTransactions] =
+    useState<Transaction[]>(mockTransactions);
+
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved !== null) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setTransactions(parsed);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load transactions from localStorage:", error);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+    } catch (error) {
+      console.error("Failed to save transactions to localStorage:", error);
+    }
+  }, [transactions]);
   const [role, setRole] = useState<Role>("admin");
   const [darkMode, setDarkMode] = useState(false);
   const [filters, setFilters] = useState<Filters>({
@@ -33,7 +65,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   });
 
   const toggleDarkMode = useCallback(() => {
-    setDarkMode(prev => {
+    setDarkMode((prev) => {
       const next = !prev;
       document.documentElement.classList.toggle("dark", next);
       return next;
@@ -45,15 +77,17 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
 
     if (filters.search) {
       const q = filters.search.toLowerCase();
-      result = result.filter(t =>
-        t.description.toLowerCase().includes(q) || t.category.toLowerCase().includes(q)
+      result = result.filter(
+        (t) =>
+          t.description.toLowerCase().includes(q) ||
+          t.category.toLowerCase().includes(q),
       );
     }
     if (filters.type !== "all") {
-      result = result.filter(t => t.type === filters.type);
+      result = result.filter((t) => t.type === filters.type);
     }
     if (filters.category !== "all") {
-      result = result.filter(t => t.category === filters.category);
+      result = result.filter((t) => t.category === filters.category);
     }
 
     result.sort((a, b) => {
@@ -66,19 +100,17 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   }, [transactions, filters]);
 
   const addTransaction = useCallback((txn: Omit<Transaction, "id">) => {
-    setTransactions(prev => [
-      { ...txn, id: `txn-${Date.now()}` },
-      ...prev,
-    ]);
+    setTransactions((prev) => [{ ...txn, id: `txn-${Date.now()}` }, ...prev]);
   }, []);
 
   const deleteTransaction = useCallback((id: string) => {
-    setTransactions(prev => prev.filter(t => t.id !== id));
+    setTransactions((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
   const { totalIncome, totalExpenses } = useMemo(() => {
-    let inc = 0, exp = 0;
-    transactions.forEach(t => {
+    let inc = 0,
+      exp = 0;
+    transactions.forEach((t) => {
       if (t.type === "income") inc += t.amount;
       else exp += t.amount;
     });
@@ -88,11 +120,23 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const totalBalance = totalIncome - totalExpenses;
 
   return (
-    <FinanceContext.Provider value={{
-      transactions, role, setRole, filters, setFilters,
-      filteredTransactions, addTransaction, deleteTransaction,
-      totalBalance, totalIncome, totalExpenses, darkMode, toggleDarkMode,
-    }}>
+    <FinanceContext.Provider
+      value={{
+        transactions,
+        role,
+        setRole,
+        filters,
+        setFilters,
+        filteredTransactions,
+        addTransaction,
+        deleteTransaction,
+        totalBalance,
+        totalIncome,
+        totalExpenses,
+        darkMode,
+        toggleDarkMode,
+      }}
+    >
       {children}
     </FinanceContext.Provider>
   );
